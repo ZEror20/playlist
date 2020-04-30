@@ -28,6 +28,31 @@ code {
   color: red;
 }
 
-.remove-song:hover {
+.update-song {
+  color: blue;
+  display: inline-block;
+}
+
+.remove-song:hover, .update-song label:hover {
   cursor: pointer;
+}
+
+.update-song-container {
+  display: none;
+  min-height: 100px;
+  position: relative;
+}
+
+input[name=update_song] {
+  visibility: hidden;
+}
+
+input[name=update_song]:checked + .update-song-container {
+  display: block;
+}
+
+.update-song-form {
+  position: absolute;
+  /* left: 100px;
+  top: -50px; */
 }

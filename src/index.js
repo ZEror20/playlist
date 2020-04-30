@@ -9,20 +9,32 @@ class Song extends React.Component {
     super(props);
     this.state = {
       newSongAuthor: '',
+      updateSongAuthor: '',
       newSongTitle: '',
+      updateSongTitle: '',
+      
       songs: {
-        test: ['test1', 'test2', 'test3'],
-        next_test: ['test4', 'test5', 'test6', 'and so on']
+        'Three Days Grace': ['Animal I Have Become', 'Fallen Angel', 'Never Too Later', 'I Hate Everything About You'],
+        'Sunset': ['It Has Begun', 'My Demons'],
+        'Thousand Foot Krutch': ['Courtesy Call', 'Take It Out on Me', 'War of Change', 'Be Somebody']
       }
     };
   }
 
-  handleAuthorChange(e) {
+  handleAddAuthorChange(e) {
     this.setState({newSongAuthor: e.target.value});
   }
 
-  handleTitleChange(e) {
+  handleUpdateAuthorChange(e) {
+    this.setState({updateSongAuthor: e.target.value});
+  }
+
+  handleAddTitleChange(e) {
     this.setState({newSongTitle: e.target.value});
+  }
+
+  handleUpdateTitleChange(e) {
+    this.setState({updateSongTitle: e.target.value});
   }
 
   addSong(e) {
@@ -30,9 +42,6 @@ class Song extends React.Component {
 
     let songs = this.state.songs;
     let author = this.state.newSongAuthor, title = this.state.newSongTitle;
-
-    author = author.toLowerCase();
-    author = author.split(' ').join('_');
 
     if (!songs[author]) {
       songs[author] = [];
@@ -42,10 +51,15 @@ class Song extends React.Component {
     this.setState({songs: songs});
   }
 
-  updateSong(author, title) {
+  updateSong(e, author, index) {
+    e.preventDefault();
+
+    let updateAuthor = this.state.updateSongAuthor, updateTitle = this.state.updateSongTitle;
+
     let songs = this.state.songs;
     if (songs[author]) {
-
+      songs[author][index] = updateTitle;
+      this.setState({songs: songs});
     }
   }
 
@@ -68,8 +82,22 @@ class Song extends React.Component {
         titless.push((
           <li key={author + '_' + index}>
             {title} 
-             <span className="remove-song" onClick={() => this.deleteSong(author, index)}>remove</span>
-            </li>
+            <div className="song-actions">
+              <span className="remove-song" onClick={() => this.deleteSong(author, index)}>remove&nbsp;</span>
+              <div className="update-song">
+                <label htmlFor={author + index}>update</label>
+                <input type="radio" name="update_song" id={author + index} />
+                <div className="update-song-container">
+                  <form className="update-song-form" onSubmit={e => this.updateSong(e, author, index)}>
+                    <p>New Title:</p>
+                    <input type="text" name="update_title" onChange={e => this.handleUpdateTitleChange(e)} />
+                    <br />
+                    <input type="submit" value="Update Song" />
+                  </form>
+                </div>
+              </div>
+            </div><br />
+          </li>
         ));
       });
 
@@ -86,9 +114,9 @@ class Song extends React.Component {
       <div>
         <form className="add-song-form" onSubmit={e => this.addSong(e)}>
           <p>Author:</p>
-          <input type="text" name="author" onChange={e => this.handleAuthorChange(e)} />
+          <input type="text" name="author" onChange={e => this.handleAddAuthorChange(e)} />
           <p>Title:</p>
-          <input type="text" name="title" onChange={e => this.handleTitleChange(e)} />
+          <input type="text" name="title" onChange={e => this.handleAddTitleChange(e)} />
           <br />
           <input type="submit" value="Add New Song" />
         </form>
