@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.add-song-form {
+  margin: 20px;
+}
+
+.add-song-form input[type=submit] {
+  margin-top: 15px;
+}
+
+.add-song-form p {
+  margin: 0;
+}
+
+.remove-song {
+  color: red;
+}
+
+.remove-song:hover {
+  cursor: pointer;
+}
